@@ -1,6 +1,8 @@
 image: docker.io/danielsig727/nats-streaming-server:latest
 imagePullPolicy: Always
 
+clusterId: test-cluster
+
 replicas: 3
 
 storageClass: nfs

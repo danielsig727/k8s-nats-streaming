@@ -18,11 +18,12 @@ make helm
 
 | Keys              | Default | Description                                                           |
 |:----------------- |:------- |:-----------------------------------------------------------------------|
-| image             | 'docker.io/danielsig727/nats-streaming-server:latest'  | Docker image to deploy |
-| imagePullPolicy   | 'IfNotPresent'  |  |
+| image             | `docker.io/danielsig727/nats-streaming-server:latest`  | Docker image to deploy |
+| imagePullPolicy   | `IfNotPresent`  |  |
+| clusterId   | `'test-cluster'`  | Cluster ID |
 | replicas          | 3  | Number of nats-streaming replicas  |
-| storageClass       | nfs  | Storage class of the volume claim  |
-| storageSize       | 2Gi  | Storage size of the share volume between nats-streaming replicas  |
+| storageClass       | `nfs`  | Storage class of the volume claim  |
+| storageSize       | `2Gi`  | Storage size of the share volume between nats-streaming replicas  |
 
 ## exposing the queue
 

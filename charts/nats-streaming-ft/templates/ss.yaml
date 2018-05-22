@@ -28,6 +28,7 @@ spec:
           - -p=4222
           - -m=8222
           - -st=FILE
+          - -cid='{{ .Values.clusterId }}'
           - --dir=/nats-datastore
           - -ft_group=ft
           - --cluster=nats://0.0.0.0:6222
