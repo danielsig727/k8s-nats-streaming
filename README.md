@@ -18,8 +18,12 @@ make helm
 
 | Keys              | Default | Description                                                           |
 |:----------------- |:------- |:-----------------------------------------------------------------------|
-| image             | 'docker.io/danielsig727/nats-streaming-server:v0.9.2'  | Docker image to deploy |
+| image             | 'docker.io/danielsig727/nats-streaming-server:latest'  | Docker image to deploy |
 | imagePullPolicy   | 'IfNotPresent'  |  |
 | replicas          | 3  | Number of nats-streaming replicas  |
 | storageClass       | nfs  | Storage class of the volume claim  |
 | storageSize       | 2Gi  | Storage size of the share volume between nats-streaming replicas  |
+
+## exposing the queue
+
+    kubectl expose service nats-streaming-ft --port=6634 --target-port=4222 --type=LoadBalancer --name=nats-streaming-external
