@@ -1,6 +1,6 @@
 IMAGE_NAME=nats-streaming-server
-PREFIX=canhnt/nats-streaming-server
-TAG=v0.6.0
+PREFIX=danielsig727/nats-streaming-server
+TAG=v0.9.2
 
 .PHONY: docker
 docker:

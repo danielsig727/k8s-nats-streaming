@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
@@ -25,6 +25,7 @@ spec:
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         args:
           - /opt/nats-streaming-server
+          - -p=4222
           - -m=8222
           - -st=FILE
           - --dir=/nats-datastore
@@ -39,7 +40,6 @@ spec:
         volumeMounts:
         - mountPath: /nats-datastore
           name: nats-datastore
-          subPath: {{ .Values.volumeSubPath }}
       volumes:
       - name: nats-datastore
         persistentVolumeClaim:

@@ -14,6 +14,9 @@ spec:
   - name: nats
     protocol: TCP
     port: 4222
+  - name: nats-clustering
+    protocol: TCP
+    port: 6222
   - name: monitoring
     protocol: TCP
     port: 8222

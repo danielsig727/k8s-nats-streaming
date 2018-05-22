@@ -9,8 +9,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteMany
-  storageClassName: ""
+  storageClassName: {{ .Values.storageClass }}
   resources:
     requests:
       storage: {{ .Values.storageSize }}
-  volumeName: {{ template "name" . }}
