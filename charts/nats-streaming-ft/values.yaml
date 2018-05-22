@@ -1,4 +1,4 @@
-image: docker.io/danielsig727/nats-streaming-server:latest
+image: docker.io/nats-streaming:0.9.2-linux
 imagePullPolicy: Always
 
 clusterId: test-cluster

@@ -5,7 +5,7 @@ metadata:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
-  name: {{ .Chart.Name }}
+  name: {{ .Chart.Name }}-{{ template "name" . }}
 spec:
   serviceName:  {{ template "name" . }}
   replicas: {{ .Values.replicas }}
@@ -24,7 +24,6 @@ spec:
         image: {{ .Values.image }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         args:
-          - /opt/nats-streaming-server
           - -p=4222
           - -m=8222
           - -st=FILE
