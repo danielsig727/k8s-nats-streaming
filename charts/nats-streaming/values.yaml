@@ -1,0 +1,24 @@
+image: docker.io/nats-streaming:0.9.2-linux
+imagePullPolicy: Always
+
+clusterId: test-cluster
+
+replicas: 3
+
+# fault tolerance mode
+# useFaultTolerance: true
+# storageClass: nfs
+# storageSize: 2Gi
+
+# high availability mode
+useFaultTolerance: false
+storageClass: standard
+storageSize: 2Gi
+
+# also provision a load balancer for public access
+loadBalancer:
+  create: true
+  # uncomment to expose following ports
+  natsExternalPort: 4222
+  # clusteringExternalPort: 6222
+  # monitoringExternalPort: 8222

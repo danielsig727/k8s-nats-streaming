@@ -1,7 +1,8 @@
+{{- if .Values.useFaultTolerance }}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ template "name" . }}
+  name: {{ template "name" . }}-{{ .Release.Name }}
   labels:
     app:  {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -13,3 +14,4 @@ spec:
   resources:
     requests:
       storage: {{ .Values.storageSize }}
+{{- end -}}

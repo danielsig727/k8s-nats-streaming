@@ -1,0 +1,31 @@
+{{ if .Values.loadBalancer.create -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name:  {{ template "name" . }}-{{ .Release.Name }}-external
+  labels:
+    app:  {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}    
+spec:
+  type: LoadBalancer
+  selector:
+    app:  {{ template "name" . }}
+    release: {{ .Release.Name }}
+  ports:
+{{- if .Values.loadBalancer.natsExternalPort }}
+  - name: nats
+    protocol: TCP
+    port: {{ .Values.loadBalancer.natsExternalPort }}
+{{- end }}
+{{- if .Values.loadBalancer.clusteringExternalPort }}
+  - name: nats-clustering
+    protocol: TCP
+    port: {{ .Values.loadBalancer.clusteringExternalPort }}
+{{- end }}
+{{- if .Values.loadBalancer.monitoringExternalPort }}
+  - name: monitoring
+    protocol: TCP
+    port: {{ .Values.loadBalancer.monitoringExternalPort }}
+{{- end }}
+{{- end -}}

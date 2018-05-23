@@ -13,4 +13,4 @@ push:
 
 .PHONY: helm
 helm: 
-	helm package charts/nats-streaming-ft
+	helm package charts/nats-streaming

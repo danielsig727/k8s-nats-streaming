@@ -5,7 +5,7 @@ metadata:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
-  name: {{ .Chart.Name }}-{{ template "name" . }}
+  name: {{ template "name" . }}-{{ .Release.Name }}
 spec:
   serviceName:  {{ template "name" . }}
   replicas: {{ .Values.replicas }}
@@ -27,11 +27,21 @@ spec:
           - -p=4222
           - -m=8222
           - -st=FILE
-          - -cid='{{ .Values.clusterId }}'
+          - -cid={{ .Values.clusterId }}
           - --dir=/nats-datastore
+          - --file_crc=true
+          - --file_sync=true
+          # - --file_truncate_bad_eof=true  # only supported 0.10.0+
+{{- if .Values.useFaultTolerance }}
           - -ft_group=ft
+{{- else}}
+          - -clustered
+          - --cluster_node_id=$(POD_NAME)
+          - -cluster_log_path=/nats-datastore/{{ .Values.clusterId }}
+          - -cluster_peers={{ template "name" . }}-{{ .Release.Name }}-0,{{ template "name" . }}-{{ .Release.Name }}-1,{{ template "name" . }}-{{ .Release.Name }}-2
+{{- end }}
           - --cluster=nats://0.0.0.0:6222
-          - --routes=nats://{{ template "name" . }}:6222
+          - --routes=nats://{{ template "name" . }}-{{ .Release.Name }}:6222
         env:
         - name: POD_NAME
           valueFrom:
@@ -40,7 +50,23 @@ spec:
         volumeMounts:
         - mountPath: /nats-datastore
           name: nats-datastore
+{{- if .Values.useFaultTolerance }}
       volumes:
       - name: nats-datastore
         persistentVolumeClaim:
           claimName: {{ template "name" . }}
+{{- end }}
+{{- if (not (.Values.useFaultTolerance)) }}
+  volumeClaimTemplates:
+  - metadata:
+      name: nats-datastore
+      labels:
+        app:  {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ .Values.storageClass }}
+      resources:
+        requests:
+          storage: {{ .Values.storageSize }}
+{{- end }}
